@@ -14,7 +14,7 @@ url = 'https://www.reddit.com/r/%s.json'%environ.get('IGBOT_SUBREDDIT', 'pics')
 username = os.environ['IGBOT_USERNAME'] environ.get('IGBOT_USERNAME', '')
 password = os.environ['IGBOT_PASSWORD'] environ.get('IGBOT_PASSWORD', '')
 hashtags = os.environ['IGBOT_HASHTAGS'] environ.get('IGBOT_HASHTAGS', '#reddit')
-REDISCLOUD_URL = environ.get('REDISCLOUD_URL', 'redis://localhost')
+REDISCLOUD_URL = environ.get('REDIS_URL', 'redis://localhost')
 DELAY = int(environ.get('IGBOT_DELAY', 60*60*4))
 
 def retrive(url):
