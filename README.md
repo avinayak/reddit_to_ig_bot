@@ -2,7 +2,11 @@
 
 An instagram bot that reposts content from reddit to instagram(I know it's evil). Uses celery to run image posting task periodically. [see it in action](https://www.instagram.com/albumartcurator/)
 
-Fork and deploy this repo in a heroku instance. attach a Heroku Redis addon to the dyno. Set the following config variables:
+## Instructions
+
+1. Fork and deploy this repo in a heroku instance.
+2. Attach a Heroku Redis addon to the dyno.
+3. Set the following config variables:
 
 * `IGBOT_USERNAME` - Instagram account username
 * `IGBOT_PASSWORD` - Instagram account password
