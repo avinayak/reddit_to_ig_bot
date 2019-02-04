@@ -52,11 +52,12 @@ def post_ig():
         
         with open('art.jpg','wb') as imfile:
             imfile.write(retrive(imageurl).read())
-        log.write(imageurl+"\n")
+        
         print("POSTING",imageurl,title)
-        InstagramAPI = InstagramAPI(username, password)
-        InstagramAPI.login()  # login
+        ig_api = InstagramAPI(username, password)
+        ig_api.login()  # login
         
         photo_path = './art.jpg'
-        InstagramAPI.uploadPhoto(photo_path, caption='%s\n%s'%(title,hashtags))
+        ig_api.uploadPhoto(photo_path, caption='%s\n%s'%(title,hashtags))
+        log.write(imageurl+"\n")
     print("TASK_END")
