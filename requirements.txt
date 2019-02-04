@@ -3,4 +3,4 @@ requests-toolbelt==0.7.0
 moviepy==0.2.2.11
 InstagramAPI==1.0.2
 redis==2.10.3
-celery==3.1.25
+celery==4.2.1
