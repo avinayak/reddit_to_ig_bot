@@ -1,0 +1,1 @@
+worker: celery -A bot worker -B --loglevel=info
