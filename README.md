@@ -1,6 +1,6 @@
 # reddit_to_ig_bot
 
-An instagram bot that rips content from reddit to instagram(I know it's cancerous💀).
+An instagram bot that rips content from reddit to instagram (I know it's cancerous💀).
 Uses celery to run image posting task periodically. [see it in action](https://www.instagram.com/albumartcurator/)
 
 ## Instructions
