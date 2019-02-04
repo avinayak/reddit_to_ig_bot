@@ -9,4 +9,4 @@ Fork and deploy this repo in a heroku instance. Set the following config variabl
 * `IGBOT_PASSWORD` - Instagram account password
 * `IGBOT_SUBREDDIT` - The subreddit to repost content from
 * `IGBOT_HASHTAGS` - list of hashtags to be appened to the post
-* `REDIS_URL` - The URL of the redis server used by celery task runner
+* `REDIS_URL` - The URL of the redis server used by celery task runner. This is auto configured if you provision a Heroku Redis addon.
