@@ -1,6 +1,6 @@
 # generic_igbot
 
-An instagram bot that reposts content from reddit to instagram(I know it's evil). Uses celery to run image posting task periodically. 
+An instagram bot that reposts content from reddit to instagram(I know it's evil). Uses celery to run image posting task periodically. (see it in action)[https://www.instagram.com/albumartcurator/]
 
 Fork and deploy this repo in a heroku instance. attach a Heroku Redis addon to the dyno. Set the following config variables:
 
