@@ -7,6 +7,7 @@ from celery.task import periodic_task
 from datetime import timedelta
 from os import environ
 import urllib.request
+import redis
 import json
 import re
 
@@ -38,26 +39,24 @@ celery = Celery('tasks', broker=REDISCLOUD_URL)
 def post_ig():
     print("TASK_START")
     reddit_out = json.loads((retrive(url)).read().decode('utf-8'))
-
-    with open('posted_imgs.txt','r+') as log:
-        loglines = [i.strip() for i in log.readlines()]
-        for post in reddit_out['data']['children']:
-            imageurl = post['data']['url']
-            title = post['data']['title']
-            if imageurl not in loglines:
-                break
+    r = redis.Redis.from_url(REDISCLOUD_URL)
+    for post in reddit_out['data']['children']:
+        imageurl = post['data']['url']
+        title = post['data']['title']
+        if not r.exists(imageurl):
+            break
         
-        title = re.sub('\[[^\]]+\]', '', title).strip()
-        print(imageurl,title)
+    title = re.sub('\[[^\]]+\]', '', title).strip()
+    print(imageurl,title)
         
-        with open('art.jpg','wb') as imfile:
-            imfile.write(retrive(imageurl).read())
+    with open('art.jpg','wb') as imfile:
+        imfile.write(retrive(imageurl).read())
         
-        print("POSTING",imageurl,title)
-        ig_api = InstagramAPI(username, password)
-        ig_api.login()  # login
+    print("POSTING",imageurl,title)
+    ig_api = InstagramAPI(username, password)
+    ig_api.login()  # login
         
-        photo_path = './art.jpg'
-        ig_api.uploadPhoto(photo_path, caption='%s\n%s'%(title,hashtags))
-        log.write(imageurl+"\n")
+    photo_path = './art.jpg'
+    ig_api.uploadPhoto(photo_path, caption='%s\n%s'%(title,hashtags))
+    r.set(imageurl,"1",ex=10*24*60*60)
     print("TASK_END")
