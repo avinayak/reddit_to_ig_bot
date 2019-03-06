@@ -3,6 +3,7 @@
 
 from InstagramAPI import InstagramAPI
 from celery import Celery
+from PIL import Image, ImageOps
 from celery.task import periodic_task
 from datetime import timedelta
 from os import environ
@@ -19,6 +20,20 @@ hashtags = environ.get('IGBOT_HASHTAGS', '#reddit')
 REDISCLOUD_URL = environ.get('REDIS_URL', 'redis://localhost')
 DELAY = int(environ.get('IGBOT_DELAY', 60*60*4))
 print("ENV VARS INITIALIZED")
+
+def pad_image(im_pth):
+    desired_size = 1000
+
+    im = Image.open(im_pth)
+    old_size = im.size 
+    ratio = float(desired_size)/max(old_size)
+    new_size = tuple([int(x*ratio) for x in old_size])
+
+    im = im.resize(new_size, Image.ANTIALIAS)
+    new_im = Image.new("RGB", (desired_size, desired_size), (255, 255, 255))
+    new_im.paste(im, ((desired_size-new_size[0])//2,
+                        (desired_size-new_size[1])//2))
+    new_im.save(im_pth)
 
 def retrive(url):
     print("RETRIVE",url)
@@ -51,6 +66,7 @@ def post_ig():
         
     with open('art.jpg','wb') as imfile:
         imfile.write(retrive(imageurl).read())
+    pad_image('art.jpg')
         
     print("POSTING",imageurl,title)
     ig_api = InstagramAPI(username, password)
