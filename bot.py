@@ -31,7 +31,7 @@ def pad_image(im_pth):
     aspect = width / float(height)
 
     ideal_width = 1000
-    ideal_height = 525
+    ideal_height = 600
 
     ideal_aspect = ideal_width / float(ideal_height)
 
