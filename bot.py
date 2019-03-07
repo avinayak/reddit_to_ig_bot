@@ -46,7 +46,7 @@ def pad_image(im_pth):
         offset = (height - new_height) / 2
         resize = (0, offset, width, height - offset)
 
-    thumb = image.crop(resize).resize((ideal_width, ideal_height), Image.ANTIALIAS)
+    thumb = image.crop(resize).resize((ideal_width, ideal_height),Image.ANTIALIAS)
     thumb.save(im_pth)
 
 def retrive(url):
@@ -78,15 +78,15 @@ def post_ig():
     title = re.sub('\[[^\]]+\]', '', title).strip()
     print(imageurl,title)
         
-    with open('art.jpg','wb') as imfile:
+    with open('art.png','wb') as imfile:
         imfile.write(retrive(imageurl).read())
-    pad_image('art.jpg')
+    pad_image('art.png')
         
     print("POSTING",imageurl,title)
     ig_api = InstagramAPI(username, password)
     ig_api.login()  # login
         
-    photo_path = './art.jpg'
+    photo_path = './art.png'
     ig_api.uploadPhoto(photo_path, caption='%s\n%s'%(title,hashtags))
     r.set(imageurl,"1",ex=10*24*60*60)
     print("TASK_END")
