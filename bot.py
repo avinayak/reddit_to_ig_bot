@@ -21,29 +21,33 @@ REDISCLOUD_URL = environ.get('REDIS_URL', 'redis://localhost')
 DELAY = int(environ.get('IGBOT_DELAY', 60*60*4))
 print("ENV VARS INITIALIZED")
 
-def most_frequent_colour(image):
-    w, h = image.size
-    pixels = image.getcolors(w * h)
-    most_frequent_pixel = pixels[0]
-    for count, colour in pixels:
-        if count > most_frequent_pixel[0]:
-            most_frequent_pixel = (count, colour)
-    return most_frequent_pixel
+
 
 def pad_image(im_pth):
-    desired_size = 1000
+    image  = Image.open(im_pth)
+    width  = image.size[0]
+    height = image.size[1]
 
-    im = Image.open(im_pth)
-    old_size = im.size 
-    ratio = float(desired_size)/max(old_size)
-    new_size = tuple([int(x*ratio) for x in old_size])
+    aspect = width / float(height)
 
-    im = im.resize(new_size, Image.ANTIALIAS)
-    mf_color = most_frequent_colour(im)
-    new_im = Image.new("RGB", (desired_size, desired_size), mf_color)
-    new_im.paste(im, ((desired_size-new_size[0])//2,
-                        (desired_size-new_size[1])//2))
-    new_im.save(im_pth)
+    ideal_width = 1000
+    ideal_height = 525
+
+    ideal_aspect = ideal_width / float(ideal_height)
+
+    if aspect > ideal_aspect:
+        # Then crop the left and right edges:
+        new_width = int(ideal_aspect * height)
+        offset = (width - new_width) / 2
+        resize = (offset, 0, width - offset, height)
+    else:
+        # ... crop the top and bottom:
+        new_height = int(width / ideal_aspect)
+        offset = (height - new_height) / 2
+        resize = (0, offset, width, height - offset)
+
+    thumb = image.crop(resize).resize((ideal_width, ideal_height), Image.ANTIALIAS)
+    thumb.save(im_pth)
 
 def retrive(url):
     print("RETRIVE",url)
