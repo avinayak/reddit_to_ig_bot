@@ -21,6 +21,15 @@ REDISCLOUD_URL = environ.get('REDIS_URL', 'redis://localhost')
 DELAY = int(environ.get('IGBOT_DELAY', 60*60*4))
 print("ENV VARS INITIALIZED")
 
+def most_frequent_colour(image):
+    w, h = image.size
+    pixels = image.getcolors(w * h)
+    most_frequent_pixel = pixels[0]
+    for count, colour in pixels:
+        if count > most_frequent_pixel[0]:
+            most_frequent_pixel = (count, colour)
+    return most_frequent_pixel
+
 def pad_image(im_pth):
     desired_size = 1000
 
@@ -30,7 +39,8 @@ def pad_image(im_pth):
     new_size = tuple([int(x*ratio) for x in old_size])
 
     im = im.resize(new_size, Image.ANTIALIAS)
-    new_im = Image.new("RGB", (desired_size, desired_size), (255, 255, 255))
+    mf_color = most_frequent_colour(im)
+    new_im = Image.new("RGB", (desired_size, desired_size), mf_color)
     new_im.paste(im, ((desired_size-new_size[0])//2,
                         (desired_size-new_size[1])//2))
     new_im.save(im_pth)
