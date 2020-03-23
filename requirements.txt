@@ -4,4 +4,4 @@ moviepy==0.2.2.11
 InstagramAPI==1.0.2
 redis==2.10.5
 celery==4.2.1
-Pillow==5.4.1
+Pillow==6.2.0
