@@ -90,3 +90,6 @@ def post_ig():
     ig_api.uploadPhoto(photo_path, caption='%s\n%s'%(title,hashtags))
     r.set(imageurl,"1",ex=10*24*60*60)
     print("TASK_END")
+
+if __name__ == '__main__':
+    post_ig()
